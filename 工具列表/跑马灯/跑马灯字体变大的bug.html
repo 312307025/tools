@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+		<style>
+            body{
+                /* 通过禁止ios自动调整字体大小来防止字体变大的bug */
+                -webkit-text-size-adjust: none;
+            }
+			.marquee-wrapper {
+				z-index: 100;
+				width: 100%;
+				background-color: rgba(0, 0, 0, .6);
+				color: #fff;
+				font-size: 14px;
+				line-height: 28px;
+				overflow: hidden;
+				display: flex;
+				max-height: 100%;
+			}
+			.marquee-wrapper2 {
+				width: 1000000000px;
+			}
+			.marquee-box {
+				font-size: 14px;
+				margin: 0;
+				box-sizing: border-box;
+				padding-left: 50%;
+				flex: 0 0 auto;
+				animation: moveup 8s linear infinite;
+				max-height: 100%;
+			}
+			.marquee-box2 {
+				width: 100%;
+				background-color: rgba(0, 0, 0, .6);
+				font-size: 14px;
+				line-height: 28px;
+				overflow: hidden;
+				color: #fff;
+				white-space: nowrap;
+				
+			}
+			@keyframes moveup {
+				0% {
+					transform: translateX(0%);
+				}
+				100% {
+					transform: translateX(-100%);
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="marquee-wrapper">
+			<div>
+			<p class="marquee-box">温馨提示：已订货的客户，请及时跟踪自己的物流信息, 及时关注未接来电等信息，避免因联系不上退回包裹。</p>
+			<p class="marquee-box">温馨提示：已订货的客户，请及时跟踪自己的物流信息, 及时关注未接来电等信息，避免因联系不上退回包裹。</p>
+			</div>
+		</div>
+		<p class="marquee-box2">温馨提示：已订货的客户，请及时跟踪自己的物流信息, 及时关注未接来电等信息，避免因联系不上退回包裹.</p>
+	</body>
+
+</html>

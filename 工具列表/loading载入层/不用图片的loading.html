@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>纯css3的loading</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <style>
+            .spinner-snake{
+                display: inline-block;
+                border: 4px solid transparent;
+                border-top-color: rgb(38, 162, 255);
+                border-left-color: rgb(38, 162, 255);
+                border-bottom-color: rgb(38, 162, 255);
+                height: 28px;
+                width: 28px;
+                border-radius: 50%;
+                animation: spinner-rotate .8s infinite linear;
+            }
+            @keyframes spinner-rotate{
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(1turn);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <span class="spinner-snake"></span>
+    </body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <script src="../../lib/jquery-3.1.1.js"></script>
+		<style>
+            body{
+                /* 通过禁止ios自动调整字体大小来防止字体变大的bug */
+                -webkit-text-size-adjust: none;
+            }
+			.marquee-wrapper {
+				z-index: 100;
+				width: 100%;
+				background-color: rgba(0, 0, 0, .6);
+				color: #fff;
+				font-size: 14px;
+				line-height: 28px;
+				overflow: hidden;
+				max-height: 100%;
+			}
+			.marquee-wrapper2 {
+				width: 1000000000px;
+			}
+			.marquee-box {
+				float: left;
+				font-size: 14px;
+				margin: 0;
+				box-sizing: border-box;
+				animation: moveup 16s linear infinite;
+				max-height: 100%;
+                font-size: 0;
+			}
+            .marquee-box .text{
+                display: inline-block;
+                font-size: 14px;
+                text-indent: 2em;
+            }
+			.marquee-box2 {
+				width: 100%;
+				background-color: rgba(0, 0, 0, .6);
+				font-size: 14px;
+				line-height: 28px;
+				overflow: hidden;
+				color: #fff;
+				white-space: nowrap;
+				
+			}
+			@keyframes moveup {
+				0% {
+					transform: translateX(0%);
+				}
+				100% {
+					transform: translateX(-100%);
+				}
+			}
+            /* js的走马灯样式 */
+            .item-wrapper{
+                margin-top: 20px;
+                font-size: 0;
+                overflow: hidden;
+				width: 100%;
+				background-color: rgba(0, 0, 0, .6);
+				color: #fff;
+            }
+            .item-wrapper .item-inner{
+                display: inline-block;
+                vertical-align: top;
+                font-size: 0;
+            }
+            .item-main{
+                font-size: 0;
+            }
+            .item{
+                display: inline-block;
+                vertical-align: top;
+                width: auto;
+				font-size: 14px;
+				line-height: 28px;
+                white-space: nowrap;
+                text-indent: 2em;
+                text-align: left;
+            }
+		</style>
+	</head>
+
+	<body>
+        <div class="marquee-wrapper">
+            <div class="marquee-wrapper2">
+                <div class="marquee-box">
+                    <div class="text">文章1内容内容内容内容内容内容内容</div>
+                    <div class="text">文章2内容内容内容内容内容内容内容</div>
+                    <div class="text">文章3内容内容内容内容内容内容内容</div>
+                </div>
+                <div class="marquee-box">
+                    <div class="text">文章1内容内容内容内容内容内容内容</div>
+                    <div class="text">文章2内容内容内容内容内容内容内容</div>
+                    <div class="text">文章3内容内容内容内容内容内容内容</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="item-wrapper" id="colee_left">
+            <div class="item-main">
+                <div class="item-inner" id="colee_left1">
+                    <div class="item">文章1内容内容内容内容内容内容内容</div>
+                    <div class="item">文章2内容内容内容内容内容内容内容</div>
+                    <div class="item">文章3内容内容内容内容内容内容内容</div>
+                </div>
+                <div class="item-inner" id="colee_left2">
+                    <div class="item">文章1内容内容内容内容内容内容内容</div>
+                    <div class="item">文章2内容内容内容内容内容内容内容</div>
+                    <div class="item">文章3内容内容内容内容内容内容内容</div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(function () {
+                //跑马灯
+                var itemWrapperWidth = 0
+                $('.item-wrapper #colee_left2 .item').each(function (i, e) {
+                    itemWrapperWidth += $(e).width()
+                })
+                if (itemWrapperWidth != 0) {
+                    $('.item-inner').width(itemWrapperWidth)
+                    $('.item-main').width(itemWrapperWidth * 2)
+                    var speed = 20;
+                    var colee_left2 = document.getElementById("colee_left2");
+                    var colee_left1 = document.getElementById("colee_left1");
+                    var colee_left = document.getElementById("colee_left");
+                    colee_left2.innerHTML = colee_left1.innerHTML;
+                    function Marquee3() {
+                        if (colee_left2.offsetWidth - colee_left.scrollLeft <= 0) {//offsetWidth 是对象的可见宽度
+                            colee_left.scrollLeft -= colee_left1.offsetWidth//scrollWidth 是对象的实际内容的宽，不包边线宽度
+                        }
+                        else {
+                            colee_left.scrollLeft += 1;
+                        }
+                    }
+                    var MyMar3 = setInterval(Marquee3, speed);
+                }
+            })
+        </script>
+	</body>
+
+</html>

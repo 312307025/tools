@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>随机整数</title>
+	</head>
+	<body>
+		
+		<input type="text" id="i1" /><button id="i1_btn">随机整数</button>
+		
+		<script>
+			function getRandomInt(min, max) {
+				return Math.floor(Math.random() * (max - min + 1)) + min;
+			}
+			document.getElementById("i1_btn").addEventListener("click",function(){
+				var shop = ['左2','兰州拉面','右1','右2','右3'];
+				var temp = getRandomInt(0,shop.length - 1);
+				console.log(temp);
+				document.getElementById("i1").value = shop[temp];
+			});
+		</script>
+	</body>
+</html>

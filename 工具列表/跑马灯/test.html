@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+		<script src="../../lib/jquery-3.1.1.js"></script>
+		<script src="jquery.marquee.min.js"></script>
+		<style>
+			body {
+				margin: 10px;
+                font-family: 'Lato', sans-serif;
+                /* 通过禁止ios自动调整字体大小来防止字体变大的bug */
+                -webkit-text-size-adjust: none;
+			}
+			.marquee {
+				width: 100%;
+				overflow: hidden;
+				background: black;
+				color: rgb(202, 255, 195);
+				max-height: 100%;
+			}
+			.marquee2 {
+				width: 100%;
+				overflow: hidden;
+				white-space: nowrap;
+				background: black;
+				margin-top: 50px;
+				color: rgb(202, 255, 195);
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class='marquee'>Longer text lorem温馨提示 ipsum dolor sit amet, consectetur adipiscing elit END.</div>
+		<p class="marquee2">Longer text lorem温馨提示 ipsum dolor sit amet, consectetur adipiscing elit END.温馨提示：已订货的客户，请及时跟踪自己的物流信息, 及时关注未接来电等信息，避免因联系不上退回包裹。</p>
+		<script>
+			$(function() {
+				$('.marquee').marquee({
+					duration: 6000,
+					gap: 150,
+					delayBeforeStart: 0,
+					direction: 'left',
+					duplicated: true
+				});
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>基于document的上拉无限加载</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <link rel="stylesheet" href="style.css">
+        <script src="../../lib/jquery-3.1.1.js"></script>
+        <script src="index.js"></script>
+    </head>
+    <body>
+        <div class="list">
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+        </div>
+        <script>
+            var page = 0,
+                list = $('.list')
+            startScroll(document, function (angin) {
+                setTimeout(() => {
+                    page++
+                    if (page < 5) {
+                        var html = ''
+                        for (var i = 0; i < 10; i++) {
+                            html += '<div class="item"></div>'
+                        }
+                        list.append(html)
+                        angin()
+                    }
+                    loadmore(list, false)
+                }, 1000);
+            }, function () {
+                loadmore(list, true)
+            })
+        </script>
+    </body>
+</html>

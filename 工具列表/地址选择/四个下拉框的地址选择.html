@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>地址选择</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <script src="../../lib/jquery-1.8.0.min.js"></script>
+    </head>
+    <body>
+        <div class="address-wrapper" id="address">
+            <select name="province">
+                <option value="-1" selected>请选择省</option>
+                <option value="1">广东省</option>
+            </select>
+            <select name="city" style="display: none;">
+                <option value="-1" selected>请选择市</option>
+                <option value="1">广州市</option>
+            </select>
+            <select name="area" style="display: none;">
+                <option value="-1" selected>请选择区</option>
+                <option value="1">白云区</option>
+            </select>
+            <select name="town" style="display: none;">
+                <option value="-1" selected>请选择城镇/街道</option>
+                <option value="1">新市街道</option>
+            </select>
+        </div>
+        <script>
+            $(function () {
+                address($('#address'))
+            })
+            // 地址选择器 @param elem -> 节点对象
+            function address(elem) {
+                var $elem = $(elem),
+                    province = $elem.find('[name="province"]'),
+                    city = $elem.find('[name="city"]'),
+                    area = $elem.find('[name="area"]'),
+                    town = $elem.find('[name="town"]'),
+                    defVal = -1
+                province.on('change', function () {
+                    var val = $(this).val()
+                    if(val != defVal) {
+                        restCity(val, function () {
+                            city.show()
+                            area.hide()
+                            town.hide()
+                        })
+                    } else {
+                        city.hide()
+                        area.hide()
+                        town.hide()
+                    }
+                })
+                city.on('change', function () {
+                    var val = $(this).val()
+                    if(val != defVal) {
+                        restArea(val, function () {
+                            area.show()
+                            town.hide()
+                        })
+                    } else {
+                        area.hide()
+                        town.hide()
+                    }
+                })
+                area.on('change', function () {
+                    var val = $(this).val()
+                    if(val != defVal) {
+                        restTown(val, function () {
+                            town.show()
+                        })
+                    } else {
+                        town.hide()
+                    }
+                })
+                // 重置市的数据
+                function restCity(val, callback) {
+                    var html = '<option value="-1" selected>请选择市</option>'
+
+                    // 通过ajax或其他方式取得市数据 val是省的值
+                    var data = [
+                        {
+                            'name': '广州市',
+                            'value': 1
+                        },
+                        {
+                            'name': '河源市',
+                            'value': 2
+                        }
+                    ]
+                    // 取得数据后的回调
+                    for(var i = 0; i < data.length; i++) {
+                        html += '<option value="' + data[i].value + '">' + data[i].name + '</option>'
+                    }
+                    city.empty()
+                    city.append(html)
+                    callback && callback()
+                }
+                // 重置区的数据
+                function restArea(val, callback) {
+                    var html = '<option value="-1" selected>请选择区</option>'
+
+                    // 通过ajax或其他方式取得市数据 val是市的值
+                    var data = [
+                        {
+                            'name': '白云区',
+                            'value': 1
+                        },
+                        {
+                            'name': '天河区',
+                            'value': 2
+                        }
+                    ]
+                    // 取得数据后的回调
+                    for(var i = 0; i < data.length; i++) {
+                        html += '<option value="' + data[i].value + '">' + data[i].name + '</option>'
+                    }
+                    area.empty()
+                    area.append(html)
+                    callback && callback()
+                }
+                // 重置镇的数据
+                function restTown(val, callback) {
+                    var html = '<option value="-1" selected>请选择城镇/街道</option>'
+
+                    // 通过ajax或其他方式取得市数据 val是区的值
+                    var data = [
+                        {
+                            'name': '萧岗街道',
+                            'value': 1
+                        },
+                        {
+                            'name': '石井街道',
+                            'value': 2
+                        }
+                    ]
+                    // 取得数据后的回调
+                    for(var i = 0; i < data.length; i++) {
+                        html += '<option value="' + data[i].value + '">' + data[i].name + '</option>'
+                    }
+                    town.empty()
+                    town.append(html)
+                    callback && callback()
+                }
+            }
+        </script>
+    </body>
+</html>

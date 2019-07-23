@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+.upload-pic-box{font-size: 0;}
+.upload-pic-box .pic-box,.upload-pic-box .pic-box .pic,.upload-pic-box .greed-p,.upload-pic-box .upload-btn{display: inline-block;vertical-align: top;}
+.upload-pic-box .pic-box .pic{position: relative;margin-right: 12px;}
+.upload-pic-box .pic-box .pic img{width: 150px;height: 150px;border-radius: 2px;vertical-align: top;}
+.upload-pic-box .pic-box .pic .pic-del{position: absolute;top: -8px;right: -6px;cursor: pointer;}
+.upload-pic-box .pic-box .pic input[type='file']{display: none;}
+.upload-pic-box .upload-btn{position: relative;width: 150px;height: 150px;background: url(add-pic-icon.png) no-repeat;background-size: cover;}
+.upload-pic-box .upload-btn input[type='file']{opacity: 0;position: absolute;top: -10px;left: -10px;width: 160px;height: 160px;cursor: pointer;}
+.upload-pic-box img.upload-btn{margin-right: 5px;}
+.upload-pic-box .pic-box .pic .pic-del{width: 14px;height: 14px;background-image: url(close.png);background-size: 14px 14px;display: inline-block;vertical-align: top;background-repeat: no-repeat;}
+		</style>
+		<script type="text/javascript" src="../../lib/jquery-3.1.1.js" ></script>
+	</head>
+	<body>
+		<div class="upload-pic-box">
+			<div class="pic-box">
+				<div class="pic">
+					<img src="../../img/test1.png">
+					<span class="pic-del"></span>
+					<input type="file" name="file1" id="file1">
+				</div>
+				<div class="pic">
+					<img src="../../img/test1.png">
+					<span class="pic-del"></span>
+					<input type="file" name="file2" id="file2">
+				</div>
+			</div>
+			<div class="upload-btn"><input type="file" name="file" id="file"></div>
+		</div>
+	</body>
+	<script>
+		$(function(){
+			//图片上传的删除按钮
+			$(".upload-pic-box").on("click", ".pic", function(){
+				$(this).remove();
+				testLength();
+			});
+			var index = 0;
+			//textarea图片上传
+			$(".upload-pic-box").on("change",".upload-btn #file",function(){
+				var $this = $(this);
+				var file = this.files[0];
+				if(!/image\/\w+/.test(file.type)){
+					alert("只能上传图片！");
+					return false;
+				}
+				var reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onload = function(e){
+					var img = new Image,
+						mxa_width = 800,//最大图片宽度
+						max_height = 600,//最大图片高度
+						quality = 0.8,//图片的保真度，1是最大的，越大越清晰
+						canvas = document.createElement("canvas"),
+						drawer = canvas.getContext("2d");
+					img.src = this.result;
+					img.onload = function(){
+						var scale = img.width/img.height;
+						canvas.width = img.width;
+						canvas.height = img.height;
+						//判断宽度高度是否大于最大值
+						if(img.width>mxa_width){
+							canvas.width = mxa_width;
+							canvas.height = mxa_width/scale;
+						}
+						if(img.height>max_height){
+							canvas.width = max_height*scale;
+							canvas.height = max_height;
+						}
+						drawer.drawImage(img,0,0,canvas.width,canvas.height);
+	                    var picBox = $this.parent().siblings(".pic-box");
+	                    var src = canvas.toDataURL("image/jpeg",quality);
+	                    $this.attr({"id": "img[]", "name":  "img[]"});
+	                    picBox.append('<div class="pic"><img src="' + src + '"/><span class="pic-del"></span></div>');
+	                    picBox.next().append('<input type="file" name="file" id="file">');
+	                    testLength();
+					}
+				}
+			});
+			testLength();
+			function testLength(){
+				//这里要在成功上传图片后运行
+				if($(".upload-pic-box .pic-box").find(".pic").length >= 5 ){
+					$(".upload-pic-box .upload-btn").hide();
+				} else {
+					$(".upload-pic-box .upload-btn").show();
+				}
+			}
+		})
+	</script>
+</html>

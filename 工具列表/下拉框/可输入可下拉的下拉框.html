@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>搜索下拉框</title>
+		<script type="text/javascript" src="../../lib/jquery-3.1.1.js"></script>
+		<script>
+			function onku() {
+				//获得input输入框的内容 
+				var shuru = document.getElementById('ccdd').value;
+				var object = document.getElementsByTagName('select');
+				var obj = object[0];
+				//如果输入的内容为空，所有的选项都匹配 
+				if(shuru != '') {
+					//alert(shuru); 
+					//获得option中的所有内容 
+					var allText = getSelectText();
+					//alert(allText); 
+					// 每个option的内容分割开来 
+					var eachOptin = new Array();
+					eachOptin = allText.split(","); //字符分割 
+					var f = 1;
+					for(i = 1; i < eachOptin.length - 1; i++) {
+						//alert(eachOptin[i]); 
+						//如果option内容中有输入的内容就返回第一次匹配的位置（大于等于0），如果没有匹配的就返回-1 
+						var flag = eachOptin[i].indexOf(shuru);
+						if(flag >= 0) {
+							//将index为f的option重新新增一遍，显示在最后 
+							obj.options.add(new Option(obj[i].innerText, obj[f].value));
+							//将编号为f的option重新赋值，赋值为符合条件的第一个option 
+							obj.options[f] = new Option(eachOptin[i], eachOptin[i]);
+							console.log(obj.options);
+							//删除最初存在的符合条件的option 
+							obj.remove(i);
+							f++;
+						}
+					}
+				}
+			}
+
+			function getSelectText() {
+				//获得所有select标签 
+				var object = document.getElementsByTagName('select');
+				//因为该html中只有一个select标签，所以就是name = "aabb"代表的标签 
+				var obj = object[0];
+				//alert(obj.length); 
+				//alert(obj[0]); 
+				//保存所有option 的值 
+				var allText;
+				for(i = 0; i < obj.length; i++) {
+					//alert(obj[i].index);//获得option的index编号 
+					//alert(obj[i].value);//获得option的value的值 
+					allText += obj[i].innerText + ','; //关键是通过option对象的innerText属性获取到选项文本 
+				}
+				return allText;
+			}
+		</script>
+	</head>
+	<style>
+		.search-select-wrapper{
+			position: relative;
+			width:190px;
+			height:20px;
+			border:1pt solid #c1c1c1;
+		}
+		.search-select-wrapper .select-wrapper,.search-select-wrapper .search-wrapper{
+			position:absolute;
+			height:20px;
+			line-height: 20px;
+			top: 0;
+		}
+		.search-select-wrapper .select-wrapper .select-main,.search-select-wrapper .search-wrapper .search-main{
+			outline: none;
+			border:0pt;
+			vertical-align: top;
+			padding: 0;
+			height:20px;
+		}
+		.search-select-wrapper .select-wrapper{
+			left: -1px;
+			overflow:hidden;
+			width:192px;
+			clip:rect(-1px 190px 190px 170px);
+		}
+		.search-select-wrapper .select-wrapper .select-main{
+			width:192px;
+		}
+		.search-select-wrapper .select-wrapper .select-main option{
+			padding: 0;
+			box-sizing: border-box;
+		}
+		.search-select-wrapper .search-wrapper{
+			width:172px;
+			border-right: 1pt solid #c1c1c1;
+		}
+		.search-select-wrapper .search-wrapper .search-main{
+			width:172px;
+		}
+	</style>
+	<body>
+		<div class="search-select-wrapper">
+			<span class="select-wrapper"> 
+				<select class="select-main" name="aabb" id="aabb" onChange="javascript:document.getElementById('ccdd').value=document.getElementById('aabb').options[document.getElementById('aabb').selectedIndex].value;"> 
+					<option value="">--请选择--</option> 
+					<option value="北京">北京</option> 
+					<option value="上海">上海</option> 
+					<option value="广州">广州</option> 
+					<option value="上123">上123</option> 
+					<option value="苏州">苏州</option> 
+				</select>
+			</span>
+			<span class="search-wrapper">
+				<input class="search-main" type="text" name="ccdd" id="ccdd" placeholder="可选择也可输入的下拉框" style="" onkeyup="onku()"> 
+			</span>
+		</div>
+		<select name="a" id="a" onChange="javascript:document.getElementById('ccdd').value=document.getElementById('aabb').options[document.getElementById('aabb').selectedIndex].value;"> 
+			<option value="">--请选择--</option> 
+			<option value="北京">北京</option> 
+			<option value="上海">上海</option> 
+			<option value="广州">广州</option> 
+			<option value="上123">上123</option> 
+			<option value="苏州">苏州</option> 
+		</select>
+	</body>
+
+</html>

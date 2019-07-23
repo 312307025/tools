@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="file" id="imageFile" /><a id="down" href="这里替换成图片的地址" download="文件名">下载图片</a>
+		<h2>压缩后的图</h2>
+		<p id="test"></p>
+		<textarea id="result" style="width: 80%;height: 400px;"></textarea>
+		<script src="online-zip.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			document.getElementById("imageFile").addEventListener("change",function(){
+				var file = this;
+				var zip = imgZip(file,function(src,e){
+					result.innerHTML = '<img src="'+src+'" alt=""/>';
+					test.innerHTML = '<img src="'+src+'" alt=""/>';
+					
+					down.href = e.getDownUrl(src);
+					down.download = imageFile.value.substring(imageFile.value.lastIndexOf("\\")+1,imageFile.value.length);
+				});
+			});
+
+		</script>
+	</body>
+</html>

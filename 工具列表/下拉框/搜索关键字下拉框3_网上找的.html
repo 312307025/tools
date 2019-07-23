@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>网上找了个插件，但是不好用</title>
+		<script type="text/javascript" src="../../lib/jquery-1.8.0.min.js" ></script>
+		<style>
+			.search-select-wrapper{
+				position: relative;
+				width:188px;
+				height:18px;
+				border:1pt solid #c1c1c1;
+			}
+			.search-select-wrapper input {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				border: 0;
+				padding: 0;
+				outline: none;
+			}
+			.search-select-wrapper select {
+				position: absolute;
+				top: 100%;
+				left: -1px;
+				width: 100%;
+				box-sizing: content-box;
+				/*height: 106px;*/
+				max-height: 100px;
+				margin: 0;
+				outline: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="search-select-wrapper">
+		    <input class="search-main" type="text" name="makeupCo" id="makeupCo" class="makeinp" placeholder="请选择或输入" data-v=""/>  
+		    <select class="select-main" name="makeupCoSe" id="typenum" size="10" style="display:none;">  
+		        <option value="1">北京</option>
+		        <option value="2">上海</option>
+		        <option value="3">广州</option>
+		        <option value="4">北京2</option>
+		        <option value="5">上海2</option>
+		        <option value="6">广州2</option>
+		        <option value="7">北京3</option>
+		        <option value="8">上海3</option>
+		        <option value="9">广州3</option>
+		        <option value="10">北京4</option>
+		        <option value="11">上海4</option>
+		        <option value="12">广州4</option>
+		    </select>
+    </div>
+		<script>
+			$(function() {
+				var TempSelect = $("<select style='display: none;'></select>"); //存储option
+				/*先将数据存入数组*/
+				$(".select-main option").each(function(index, el) {
+					TempSelect.append(el);
+				});
+				$(".search-select-wrapper").append(TempSelect);
+				$(document).bind('click', function(e) {
+					var e = e || window.event; //浏览器兼容性     
+					var elem = e.target || e.srcElement;
+					while(elem) { //循环判断至跟节点，防止点击的是div子元素     
+						if($(elem).is(".search-main") || $(elem).is(".select-main")) {
+							return;
+						}
+						elem = elem.parentNode;
+					}
+					$('.select-main').css('display', 'none'); //点击的不是div或其子元素     
+				});
+				$(".search-select-wrapper").on("change",".select-main",function(){
+					changeF(this);
+				});
+				$(".search-select-wrapper").on("focus",".search-main",function(){
+					setfocus(this)
+				}).on("input",".search-main",function(){
+					setinput(this)
+				})
+				function changeF(this_) {
+					$(this_).prev("input").val($(this_).find("option:selected").text());
+					$(this_).prev("input").data("v",$(this_).val());
+					$(".select-main").css({
+						"display": "none"
+					});
+				}
+				function setfocus(this_) {
+					$(".select-main").css({
+						"display": ""
+					});
+					var select = $(".select-main");
+					var value = select.val();
+					select.empty();
+					select.append(TempSelect.find("option").clone());
+					select.val(value);
+				}
+				function setinput(this_) {
+					var select = $(".select-main");
+					select.empty();
+					TempSelect.find("option").each(function(i,e){
+						if($(e).text().indexOf(this_.value.trim()) !== -1) {
+							select.append($(e).clone(true));
+						}
+					});
+				}
+			})
+		</script>
+	</body>
+
+</html>

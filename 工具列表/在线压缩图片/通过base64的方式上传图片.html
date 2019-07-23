@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../../lib/jquery-3.1.1.js" ></script>
+	</head>
+	<body>
+		<img id="tempImg" src="../../lib/PhotoSwipe-master/website/test/apple-touch-icon-144x144.png" />
+		<p id="temp"></p>
+		<script>
+			$(function(){
+				function getBase64(src,fun){
+					var img = new Image,
+					quality = 1,//图片的保真度，1是最大的，越大越清晰
+					canvas = document.createElement("canvas"),
+					drawer = canvas.getContext("2d");
+					img.src = src,
+					base64 = "";
+					img.onload = function(){
+						var scale = img.width/img.height;
+						canvas.width = img.width;
+						canvas.height = img.height;
+						drawer.drawImage(img,0,0,canvas.width,canvas.height);
+						base64 = canvas.toDataURL("image/jpeg",quality);
+						fun(base64);
+					}
+				}
+				getBase64($("#tempImg").attr("src"),function(base64){
+					console.log(base64);
+				});
+			})
+		</script>
+	</body>
+</html>

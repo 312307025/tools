@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>图片翻转</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <style lang="">
+            /* entire container, keeps perspective */
+            .flip-container {
+                -webkit-perspective: 1000;
+                        perspective: 1000;
+            }
+            /* flip the pane when hovered */
+            /* .flip-container:hover .flipper, .flip-container.hover .flipper {
+                transform: rotateY(180deg);
+            } */
+            .flip-container, .front, .back {
+                width: 320px;
+                height: 480px;
+            }
+
+            /* flip speed goes here */
+            .flipper {
+                -webkit-transition: 0.6s;
+                transition: 0.6s;
+                -webkit-transform-style: preserve-3d;
+                        transform-style: preserve-3d;
+                position: relative;
+                -webkit-animation: flipInLeft 3s infinite;
+                        animation: flipInLeft 3s infinite;
+            }
+
+            @-webkit-keyframes flipInLeft {
+                0% {
+                    -webkit-transform: rotateY(0);
+                            transform: rotateY(0);
+                }
+            
+                50% {
+                    -webkit-transform: rotateY(180deg);
+                            transform: rotateY(180deg);
+                }
+            
+                100% {
+                    -webkit-transform: rotateY(360deg);
+                            transform: rotateY(360deg);
+                }
+            }
+            /* hide back of pane during swap */
+            .front, .back {
+                -webkit-backface-visibility: hidden;
+                        backface-visibility: hidden;
+
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            /* front pane, placed above back */
+            .front {
+                z-index: 2;
+            }
+
+            /* back, initially hidden pane */
+            .back {
+                -webkit-transform: rotateY(180deg);
+                        transform: rotateY(180deg);
+            }
+            .img{
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+         <div class="flip-container">
+            <div class="flipper">
+                <div class="front">
+                    <!-- 前面内容 -->
+                    <img class="img" src="../../img/test1.png">
+                </div>
+                <div class="back">
+                    <!-- 背面内容 -->
+                    <img class="img" src="../../img/test2.png">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

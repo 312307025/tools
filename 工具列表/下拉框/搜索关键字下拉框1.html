@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>搜索下拉框</title>
+		<script src="../../lib/jquery-3.1.1.js"></script>
+		<style>
+			.search-down{
+				position: relative;
+				display: inline-block;
+			}
+			.search-down .search-key{
+				border: 1px solid #ccc;
+				box-shadow: 1px 1px 3px #ededed;
+				height: 35px;
+				line-height: 35px;
+				width: 500px;
+				padding: 0 0 0 7px;
+				box-sizing: border-box;
+				font: 16px/18px arial;
+				outline: none;
+			}
+			.search-down .search-key:hover{
+				border-color: #999;
+			}
+			.search-down .search-key:focus{
+				border-color: #4791ff;
+			}
+			.search-down .pop-list{
+				position: absolute;
+				top: 34px;
+				left: 0;
+				width: 100%;
+				box-sizing: border-box;
+				border: 1px solid #ccc;
+				line-height: 22px;
+				font-size: 14px;
+				background-color: #fff;
+				max-height: 222px;
+				overflow: auto;
+			}
+			.search-down .pop-list .pop-item{
+				display: block;
+				margin: 0;
+				padding: 0 8px;
+				cursor: pointer;
+			}
+			.search-down .pop-list .pop-item:hover{
+				background-color: #f0f0f0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="search-down">
+			<input type="text" name="keyword" id="keyword" class="search-key">
+			<div class="pop-list">
+				<p class="pop-item">好好好</p>
+				<p class="pop-item">好好好</p>
+				<p class="pop-item">好好好好好好好好好好好好好好好好好好好好好好好好</p>
+				<p class="pop-item">好好好</p>
+				<p class="pop-item">好好好</p>
+				<p class="pop-item">好好好</p>
+				<p class="pop-item">好好好</p>
+				<p class="pop-item">好好好</p>
+				<p class="pop-item">好好好</p>
+				<p class="pop-item">好好好</p>
+			</div>
+		</div>
+		
+		<script>
+			$(function(){
+				//判断鼠标是否在选择区域
+				var isBox = false;
+				//绑定事件
+				$(document).on("keyup",'.search-down .search-key',getMoreContents);
+				$(document).on("focus",'.search-down .search-key',getMoreContents);
+				$(document).on("click",'.search-down .pop-item',function(){
+					$(this).parents(".search-down").find(".search-key").val($(this).html());
+					$(this).parents(".pop-list").remove();
+				});
+				$(document).on("mousemove",'.pop-list',function(){
+			    	isBox = true;
+				});
+				$(document).on("mouseout",'.pop-list',function(){
+			    	isBox = false;
+				});
+				$(document).on("blur",'.search-down',function(){
+					if (isBox == true) return false;
+					$(this).find(".pop-list").remove();
+				});
+			})
+			//获取数据
+			function getMoreContents() {
+				var that = this;
+				//输入的关键字
+				var keyword = $(that).val();
+				if(keyword == "") {
+					//为空的时候去掉下拉框
+					$(that).siblings(".pop-list").remove();
+					return;
+				} else {
+					//通过ajax获取数据
+					var ajax = new XMLHttpRequest();
+					var url = "search.json?keyword=" + keyword;
+					ajax.open("GET", url, true);
+					ajax.send(null);
+					ajax.onreadystatechange = function() {
+						if(ajax.readyState == 4) {
+							if(ajax.status == 200) {
+								var result = ajax.responseText;
+								insertContent(result,that);
+							}
+						}
+					}
+				}
+			}
+			//把数据插入到下拉框
+			function insertContent(content,e) {
+				$(e).siblings(".pop-list").remove();
+				var json = JSON.parse(content);
+				var tempHtml = '<div class="pop-list">'
+				for(var i = 0; i < json.length; i++) {
+					tempHtml += '<p class="pop-item">' + json[i] + '</p>';
+				}
+				tempHtml += '</div>';
+				$(e).after(tempHtml);
+			}
+		</script>
+	</body>
+
+</html>

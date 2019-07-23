@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>这是一个表单验证的工具</title>
+		<style>
+			form {margin: 0 auto; width: 500px;margin-top: 50px;}
+			form .row{padding: 20px;}
+			form .row>label{width: 100px;display: inline-block;vertical-align: baseline;}
+			form .row input[type='text']{width: 300px;}
+		</style>
+		<script type="text/javascript" src="../../lib/jquery-3.1.1.js" ></script>
+		<script type="text/javascript" src="../../lib/layer/layer.js" ></script>
+		<script type="text/javascript" src="easyTest.js" ></script>
+	</head>
+	<body>
+		<!--version 0.1-->
+		<!--这个工具只是为了能有一个能非常自由的提示出各种各样的错误窗口而制作的一个工具-->
+		<form>
+			<div class="row">
+				<label>text:</label><input type="text" name="text" placeholder="这里是type:text类型的input" />
+			</div>
+			<div class="row">
+				<label>checkbox:</label>
+				<input type="checkbox" name="checkbox" placeholder="这里是type:checkbox类型的input" />1
+				<input type="checkbox" name="checkbox" placeholder="这里是type:checkbox类型的input" />2
+			</div>
+			<div class="row">
+				<label>radio:</label>
+				<input type="radio" name="radio" placeholder="这里是type:radio类型的input" />1
+				<input type="radio" name="radio" placeholder="这里是type:radio类型的input" />2
+            </div>
+            <div class="row">
+                <label>textarea:</label>
+                <textarea name="textarea" id="textarea" cols="30" rows="10"></textarea>
+            </div>
+			<a href="javascript:void(0)" onclick="go()">点击提交一下咯</a>
+		</form>
+		<script>
+			function go(){
+				var temp = [
+					{"event" : "text", "context" : "请输入text", "required" : true},
+                    {"event" : "checkbox", "context" : "请选择checkbox", "required" : true},
+                    {"event": "textarea", "context": "请输入textarea", "required": true}
+				]
+				easyTest(temp,{"errorTip" : errorFun},function(){
+					alert("成功");
+				})
+				function errorFun(text,event){
+					alert(text)
+				}
+			}
+		</script>
+	</body>
+</html>

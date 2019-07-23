@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>有加减号的数字输入框</title>
+		<script type="text/javascript" src="../../lib/jquery-3.1.1.js" ></script>
+		<style>
+			body{
+				width: 200px;
+				height: 100px;
+				margin: 0 auto;
+				padding-top: 40px;
+			}
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.number_controller{
+				display: inline-block;
+				zoom: 1;
+				font-size: 12px;
+			}
+			.number_controller:after{
+			    content: " ";
+			    display: block;
+			    font-size: 0;
+			    height: 0;
+			    clear: both;
+			    visibility: hidden;
+			}
+			.number_controller .count_dowm,.number_controller .count_up{
+				position: relative;
+				float: left;
+				height: 30px;
+				line-height: 30px;
+				width: 30px;
+				border: 1px solid #c2c2c2;
+			}
+			.number_controller .count_dowm:before{
+				position: absolute;
+				width: 5px;
+				height: 1px;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+				background-color: #000;
+				content: "";
+			}
+			.number_controller .count_up:before{
+				position: absolute;
+				width: 7px;
+				height: 1px;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+				background-color: #000;
+				content: "";
+			}
+			.number_controller .count_up:after{
+				position: absolute;
+				width: 1px;
+				height: 7px;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+				background-color: #000;
+				content: "";
+			}
+			.number_controller .count_input{
+				float: left;
+				width: 60px;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				border-width: 1px 0 1px 0;
+				border-color: #c2c2c2;
+				border-style: solid;
+                appearance: none;
+			}
+            .number_controller .count_dowm.disabled,.number_controller .count_up.disabled{
+                pointer-events: none;
+            }
+            .number_controller .count_dowm.disabled::before{
+                background-color: #cecece;
+            }
+            .number_controller .count_up.disabled::before, .number_controller .count_up.disabled::after{
+                background-color: #cecece;
+            }
+		</style>
+	</head>
+	<body>
+        <!-- 这个有长按增加数量 -->
+		<div class="number_controller">
+            <a class="count_dowm" href="javascript:void(0)"></a>
+            <!-- pc端 -->
+            <input class="count_input" type="text" value="1" data-min="1" data-max="10" />
+            <!-- 移动端 -->
+            <!-- <input type="number" class="count_input" value="1" data-min="1" data-max="10" /> -->
+			<a class="count_up" href="javascript:void(0)"></a>
+		</div>
+		<script>
+			//有bug，长按时会加速增加数量，这里假如把鼠标按着移除加减号框然后放开，数量会一直增加
+			$(function(){
+				//最大的数量
+				var MAX_COUNT = 9999;
+				//最小数量
+				var MIN_COUNT = 0;
+				//每次加减数量
+				var EVERY_COUNT = 1;
+				$(document).on('click','.number_controller .count_dowm',function(){
+					var count = $(this).siblings('.count_input');
+					count.val() > MIN_COUNT ? count.val(parseInt(count.val()) - EVERY_COUNT) : MIN_COUNT;
+				}).on('mousedown','.number_controller .count_dowm',function(){
+					var $this = $(this);
+					var timer1;
+					var timer2;
+					timer1 = setTimeout(function(){
+						timer2 = setInterval(function(){
+							var count = $this.siblings('.count_input');
+							count.val() > MIN_COUNT ? count.val(parseInt(count.val()) - EVERY_COUNT) : MIN_COUNT;
+						},50);
+					},500);
+					$this.one('mouseup',function(){
+						clearTimeout(timer1);
+						clearInterval(timer2);
+					});
+				});
+				$(document).on('click','.number_controller .count_up',function(){
+					var count = $(this).siblings('.count_input');
+					count.val() < MAX_COUNT ? count.val(parseInt(count.val()) + EVERY_COUNT) : MAX_COUNT;
+				}).on('mousedown','.number_controller .count_up',function(){
+					var $this = $(this);
+					var timer1;
+					var timer2;
+					timer1 = setTimeout(function(){
+						timer2 = setInterval(function(){
+							var count = $this.siblings('.count_input');
+							count.val() < MAX_COUNT ? count.val(parseInt(count.val()) + EVERY_COUNT) : MAX_COUNT;
+						},50);
+					},500);
+					$this.one('mouseup',function(){
+						clearTimeout(timer1);
+						clearInterval(timer2);
+					});
+				});
+				$(document).on('keyup','.number_controller .count_input',function(){
+					var count = $(this);
+					count.val(count.val().replace(/\D/g,""));
+					if(count.val() != ""){
+						count.val(parseInt(count.val()));
+					}
+					if(count.val() > MAX_COUNT) count.val(MAX_COUNT);
+				});
+				
+			});
+		</script>
+	</body>
+</html>
